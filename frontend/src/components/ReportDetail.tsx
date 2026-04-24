@@ -1,4 +1,6 @@
 import { BugReport } from '../api/reportsApi'
+import SeverityBadge from './SeverityBadge'
+import StatusBadge from './StatusBadge'
 
 type ReportDetailProps = {
   report: BugReport
@@ -19,10 +21,8 @@ function ReportDetail({ report, onClose }: ReportDetailProps) {
       </div>
 
       <div className="detail-badges">
-        <span className={`severity-pill severity-${report.severity.toLowerCase()}`}>
-          {report.severity}
-        </span>
-        <span className="detail-chip">{report.status}</span>
+        <SeverityBadge severity={report.severity} />
+        <StatusBadge status={report.status} />
         <span className="detail-chip">{report.category ?? 'Uncategorized'}</span>
         {report.createdAt && <span className="detail-chip">{report.createdAt}</span>}
       </div>
