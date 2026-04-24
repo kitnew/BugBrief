@@ -9,8 +9,14 @@ export const mockReports: BugReport[] = [
     category: 'Authentication',
     status: 'open',
     createdAt: '2026-04-24',
+    stepsToReproduce: [
+      'Open the login page.',
+      'Enter valid user credentials.',
+      'Click the login button.',
+    ],
     expectedResult: 'User should be redirected to the dashboard after login.',
     actualResult: 'The page refreshes and the user stays on the login screen.',
+    technicalNotes: 'Browser console shows 401 Unauthorized after the login request.',
     suggestedFix: 'Check token handling and backend login endpoint configuration.',
   },
   {
@@ -21,8 +27,14 @@ export const mockReports: BugReport[] = [
     category: 'Frontend',
     status: 'in progress',
     createdAt: '2026-04-23',
+    stepsToReproduce: [
+      'Create a new bug report using the form.',
+      'Wait for the success message.',
+      'Scroll to the reports list section.',
+    ],
     expectedResult: 'Newly generated reports should appear in the list immediately.',
     actualResult: 'The list shows older data until the page is refreshed.',
+    technicalNotes: 'Reports state is not refreshed after successful form submission.',
     suggestedFix: 'Refresh the reports state after successful form submission.',
   },
   {
@@ -33,8 +45,14 @@ export const mockReports: BugReport[] = [
     category: 'Export',
     status: 'open',
     createdAt: '2026-04-22',
+    stepsToReproduce: [
+      'Open a generated report detail.',
+      'Click the export to Markdown button.',
+      'Check the browser and server error logs.',
+    ],
     expectedResult: 'Markdown export should download a valid file.',
     actualResult: 'The export button triggers a server error.',
+    technicalNotes: 'Some optional report fields are undefined during export.',
     suggestedFix: 'Validate export payload and handle missing report fields.',
   },
 ]
