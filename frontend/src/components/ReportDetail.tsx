@@ -1,4 +1,4 @@
-import { BugReport } from '../api/reportsApi'
+import type { BugReport } from '../api/reportsApi'
 import SeverityBadge from './SeverityBadge'
 import StatusBadge from './StatusBadge'
 
