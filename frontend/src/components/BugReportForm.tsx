@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import { analyzeBugReport } from '../api/reportsApi'
 
 type BugReportFormData = {
   projectName: string
@@ -16,6 +17,7 @@ function BugReportForm() {
   const [formData, setFormData] = useState<BugReportFormData>(initialFormData)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const updateField = (field: keyof BugReportFormData, value: string) => {
     setFormData((current) => ({
@@ -26,7 +28,7 @@ function BugReportForm() {
     setSuccessMessage('')
   }
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     if (!formData.projectName.trim()) {
@@ -39,7 +41,25 @@ function BugReportForm() {
       return
     }
 
-    setSuccessMessage('Form is ready. Backend API connection will be added in FE-03.')
+    try {
+      setIsSubmitting(true)
+      setError('')
+      setSuccessMessage('')
+
+      const report = await analyzeBugReport({
+        projectName: formData.projectName.trim(),
+        environment: formData.environment.trim(),
+        rawDescription: formData.rawDescription.trim(),
+      })
+
+      setSuccessMessage(`Report generated: ${report.title}`)
+      setFormData(initialFormData)
+    } catch (requestError) {
+      console.error(requestError)
+      setError('Could not generate the report. Please check if the backend API is running.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -85,8 +105,8 @@ function BugReportForm() {
       {error && <p className="form-message error-message">{error}</p>}
       {successMessage && <p className="form-message success-message">{successMessage}</p>}
 
-      <button className="submit-button" type="submit">
-        Generate structured report
+      <button className="submit-button" type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Generating report...' : 'Generate structured report'}
       </button>
     </form>
   )
