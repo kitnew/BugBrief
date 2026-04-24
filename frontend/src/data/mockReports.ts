@@ -1,4 +1,4 @@
-import { BugReport } from '../api/reportsApi'
+import type { BugReport } from '../api/reportsApi'
 
 export const mockReports: BugReport[] = [
   {
