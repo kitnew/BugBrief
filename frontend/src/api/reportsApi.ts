@@ -9,26 +9,41 @@ const reportsApi = axios.create({
   },
 })
 
+export type ReportSeverity = 'Low' | 'Medium' | 'High' | 'Critical'
+export type ReportStatus = 'open' | 'in progress' | 'resolved'
+
 export type AnalyzeReportRequest = {
   projectName: string
   environment: string
   rawDescription: string
 }
 
-export type AnalyzeReportResponse = {
-  id?: number
+export type BugReport = {
+  id: number
+  projectName?: string
   title: string
-  severity: 'Low' | 'Medium' | 'High' | 'Critical'
+  severity: ReportSeverity
   category?: string
   stepsToReproduce?: string[]
   expectedResult?: string
   actualResult?: string
   technicalNotes?: string
   suggestedFix?: string
-  status?: 'open' | 'in progress' | 'resolved'
+  status: ReportStatus
+  createdAt?: string
+}
+
+export type AnalyzeReportResponse = Omit<BugReport, 'id' | 'status'> & {
+  id?: number
+  status?: ReportStatus
 }
 
 export async function analyzeBugReport(payload: AnalyzeReportRequest) {
   const response = await reportsApi.post<AnalyzeReportResponse>('/api/reports/analyze', payload)
+  return response.data
+}
+
+export async function getReports() {
+  const response = await reportsApi.get<BugReport[]>('/api/reports')
   return response.data
 }
