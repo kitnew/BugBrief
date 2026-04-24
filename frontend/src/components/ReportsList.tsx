@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { BugReport, getReports } from '../api/reportsApi'
 import { mockReports } from '../data/mockReports'
 import ReportCard from './ReportCard'
+import ReportDetail from './ReportDetail'
 
 function ReportsList() {
   const [reports, setReports] = useState<BugReport[]>(mockReports)
+  const [selectedReport, setSelectedReport] = useState<BugReport | null>(mockReports[0])
   const [isLoading, setIsLoading] = useState(false)
   const [notice, setNotice] = useState('Showing demo reports until the backend API is available.')
 
@@ -18,12 +20,14 @@ function ReportsList() {
 
         if (isMounted) {
           setReports(apiReports)
+          setSelectedReport(apiReports[0] ?? null)
           setNotice('Reports loaded from backend API.')
         }
       } catch (error) {
         console.error(error)
         if (isMounted) {
           setReports(mockReports)
+          setSelectedReport(mockReports[0])
           setNotice('Backend API is not available yet. Showing demo reports.')
         }
       } finally {
@@ -51,10 +55,16 @@ function ReportsList() {
         {isLoading && <span className="loading-pill">Loading...</span>}
       </div>
 
-      <div className="reports-grid">
-        {reports.map((report) => (
-          <ReportCard key={report.id} report={report} />
-        ))}
+      <div className="reports-layout">
+        <div className="reports-grid">
+          {reports.map((report) => (
+            <ReportCard key={report.id} report={report} onSelect={setSelectedReport} />
+          ))}
+        </div>
+
+        {selectedReport && (
+          <ReportDetail report={selectedReport} onClose={() => setSelectedReport(null)} />
+        )}
       </div>
     </section>
   )
