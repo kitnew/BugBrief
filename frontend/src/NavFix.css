@@ -1,28 +1,43 @@
 .main-nav {
-  background: rgba(255, 255, 255, 0.72);
-  border-radius: 999px;
-  overflow: visible;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  border: 1px solid rgba(148, 163, 184, 0.32) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  overflow: visible !important;
 }
 
 .main-nav a,
+.main-nav a:link,
 .main-nav a:visited,
 .main-nav a:active,
 .main-nav a:focus {
-  color: #475569;
-  background: transparent;
-  text-decoration: none;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 999px !important;
+  color: #475569 !important;
+  background: transparent !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .main-nav a:hover {
-  background: #ffffff;
-  color: #111827;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  background: #ffffff !important;
+  color: #111827 !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08) !important;
 }
 
 .main-nav a:focus-visible {
-  color: #111827;
-  background: rgba(255, 255, 255, 0.8);
-  outline: 2px solid rgba(79, 70, 229, 0.45);
-  outline-offset: 3px;
-  box-shadow: none;
+  color: #111827 !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  outline: 2px solid rgba(79, 70, 229, 0.45) !important;
+  outline-offset: 3px !important;
 }
