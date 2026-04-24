@@ -10,18 +10,23 @@ function App() {
     })
   }
 
+  const handleNavClick = (sectionId: string, button: HTMLButtonElement) => {
+    scrollToSection(sectionId)
+    button.blur()
+  }
+
   return (
     <div className="app-shell">
       <header className="site-header">
-        <button className="brand brand-button" type="button" onClick={() => scrollToSection('about')}>
+        <button className="brand brand-button" type="button" onClick={(event) => handleNavClick('about', event.currentTarget)}>
           <span className="brand-mark">BB</span>
           <span className="brand-text">BugBrief</span>
         </button>
 
         <nav className="main-nav" aria-label="Main navigation">
-          <button type="button" onClick={() => scrollToSection('create-report')}>Create Report</button>
-          <button type="button" onClick={() => scrollToSection('reports')}>Reports</button>
-          <button type="button" onClick={() => scrollToSection('about')}>About</button>
+          <button type="button" onClick={(event) => handleNavClick('create-report', event.currentTarget)}>Create Report</button>
+          <button type="button" onClick={(event) => handleNavClick('reports', event.currentTarget)}>Reports</button>
+          <button type="button" onClick={(event) => handleNavClick('about', event.currentTarget)}>About</button>
         </nav>
       </header>
 
@@ -37,10 +42,10 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <button className="primary-button" type="button" onClick={() => scrollToSection('create-report')}>
+              <button className="primary-button" type="button" onClick={(event) => handleNavClick('create-report', event.currentTarget)}>
                 Create bug report
               </button>
-              <button className="secondary-button" type="button" onClick={() => scrollToSection('reports')}>
+              <button className="secondary-button" type="button" onClick={(event) => handleNavClick('reports', event.currentTarget)}>
                 View reports
               </button>
             </div>
