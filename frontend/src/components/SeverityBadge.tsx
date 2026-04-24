@@ -1,4 +1,4 @@
-import { ReportSeverity } from '../api/reportsApi'
+import type { ReportSeverity } from '../api/reportsApi'
 import './Badges.css'
 
 type SeverityBadgeProps = {
