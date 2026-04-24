@@ -3,18 +3,25 @@ import ReportsList from './components/ReportsList'
 import './App.css'
 
 function App() {
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
     <div className="app-shell">
       <header className="site-header">
-        <a className="brand" href="/" aria-label="BugBrief home">
+        <button className="brand brand-button" type="button" onClick={() => scrollToSection('about')}>
           <span className="brand-mark">BB</span>
           <span className="brand-text">BugBrief</span>
-        </a>
+        </button>
 
         <nav className="main-nav" aria-label="Main navigation">
-          <a href="#create-report">Create Report</a>
-          <a href="#reports">Reports</a>
-          <a href="#about">About</a>
+          <button type="button" onClick={() => scrollToSection('create-report')}>Create Report</button>
+          <button type="button" onClick={() => scrollToSection('reports')}>Reports</button>
+          <button type="button" onClick={() => scrollToSection('about')}>About</button>
         </nav>
       </header>
 
@@ -30,12 +37,12 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a className="primary-button" href="#create-report">
+              <button className="primary-button" type="button" onClick={() => scrollToSection('create-report')}>
                 Create bug report
-              </a>
-              <a className="secondary-button" href="#reports">
+              </button>
+              <button className="secondary-button" type="button" onClick={() => scrollToSection('reports')}>
                 View reports
-              </a>
+              </button>
             </div>
           </div>
 
@@ -44,7 +51,7 @@ function App() {
               <span className="status-dot"></span>
               <span>Generated report preview</span>
             </div>
-            <h2>Login fails with 401 Unauthorized</h2>
+            <h2>Login request fails</h2>
             <dl>
               <div>
                 <dt>Severity</dt>
