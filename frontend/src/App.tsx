@@ -75,17 +75,6 @@ function App() {
         </section>
 
         <ReportsList />
-
-        <section className="placeholder-grid" aria-label="Frontend sections">
-          <article className="placeholder-card">
-            <span className="step-number">03</span>
-            <h2>Report Detail</h2>
-            <p>
-              Each report will have a detail page with severity, status, steps and AI
-              suggestions.
-            </p>
-          </article>
-        </section>
       </main>
     </div>
   )
