@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { BugReport, getReports } from '../api/reportsApi'
+import type { BugReport } from '../api/reportsApi'
+import { getReports } from '../api/reportsApi'
 import { mockReports } from '../data/mockReports'
 import ReportCard from './ReportCard'
 import ReportDetail from './ReportDetail'
