@@ -1,4 +1,6 @@
 import { BugReport } from '../api/reportsApi'
+import SeverityBadge from './SeverityBadge'
+import StatusBadge from './StatusBadge'
 
 type ReportCardProps = {
   report: BugReport
@@ -13,14 +15,12 @@ function ReportCard({ report, onSelect }: ReportCardProps) {
           <p className="report-project">{report.projectName ?? 'Unknown project'}</p>
           <h3>{report.title}</h3>
         </div>
-        <span className={`severity-pill severity-${report.severity.toLowerCase()}`}>
-          {report.severity}
-        </span>
+        <SeverityBadge severity={report.severity} />
       </div>
 
       <div className="report-meta">
         <span>{report.category ?? 'Uncategorized'}</span>
-        <span>{report.status}</span>
+        <StatusBadge status={report.status} />
         {report.createdAt && <span>{report.createdAt}</span>}
       </div>
 
