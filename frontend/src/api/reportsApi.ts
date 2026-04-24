@@ -47,3 +47,8 @@ export async function getReports() {
   const response = await reportsApi.get<BugReport[]>('/api/reports')
   return response.data
 }
+
+export async function getReportById(id: number) {
+  const response = await reportsApi.get<BugReport>(`/api/reports/${id}`)
+  return response.data
+}
