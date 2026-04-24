@@ -1,0 +1,40 @@
+import { BugReport } from '../api/reportsApi'
+
+export const mockReports: BugReport[] = [
+  {
+    id: 1,
+    projectName: 'Student Portal',
+    title: 'Login fails with 401 Unauthorized',
+    severity: 'High',
+    category: 'Authentication',
+    status: 'open',
+    createdAt: '2026-04-24',
+    expectedResult: 'User should be redirected to the dashboard after login.',
+    actualResult: 'The page refreshes and the user stays on the login screen.',
+    suggestedFix: 'Check token handling and backend login endpoint configuration.',
+  },
+  {
+    id: 2,
+    projectName: 'BugBrief',
+    title: 'Report list does not update after creating a report',
+    severity: 'Medium',
+    category: 'Frontend',
+    status: 'in progress',
+    createdAt: '2026-04-23',
+    expectedResult: 'Newly generated reports should appear in the list immediately.',
+    actualResult: 'The list shows older data until the page is refreshed.',
+    suggestedFix: 'Refresh the reports state after successful form submission.',
+  },
+  {
+    id: 3,
+    projectName: 'Admin Dashboard',
+    title: 'Critical error when exporting report to Markdown',
+    severity: 'Critical',
+    category: 'Export',
+    status: 'open',
+    createdAt: '2026-04-22',
+    expectedResult: 'Markdown export should download a valid file.',
+    actualResult: 'The export button triggers a server error.',
+    suggestedFix: 'Validate export payload and handle missing report fields.',
+  },
+]
