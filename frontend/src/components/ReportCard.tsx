@@ -2,9 +2,10 @@ import { BugReport } from '../api/reportsApi'
 
 type ReportCardProps = {
   report: BugReport
+  onSelect: (report: BugReport) => void
 }
 
-function ReportCard({ report }: ReportCardProps) {
+function ReportCard({ report, onSelect }: ReportCardProps) {
   return (
     <article className="report-card">
       <div className="report-card-header">
@@ -24,6 +25,10 @@ function ReportCard({ report }: ReportCardProps) {
       </div>
 
       {report.suggestedFix && <p className="report-fix">{report.suggestedFix}</p>}
+
+      <button className="view-detail-button" type="button" onClick={() => onSelect(report)}>
+        View detail
+      </button>
     </article>
   )
 }
