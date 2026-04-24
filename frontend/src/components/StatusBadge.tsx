@@ -1,4 +1,5 @@
 import { ReportStatus } from '../api/reportsApi'
+import './Badges.css'
 
 type StatusBadgeProps = {
   status: ReportStatus
