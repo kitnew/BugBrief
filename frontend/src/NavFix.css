@@ -1,0 +1,28 @@
+.main-nav {
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.main-nav a,
+.main-nav a:visited,
+.main-nav a:active,
+.main-nav a:focus {
+  color: #475569;
+  background: transparent;
+  text-decoration: none;
+}
+
+.main-nav a:hover {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.main-nav a:focus-visible {
+  color: #111827;
+  background: rgba(255, 255, 255, 0.8);
+  outline: 2px solid rgba(79, 70, 229, 0.45);
+  outline-offset: 3px;
+  box-shadow: none;
+}
