@@ -1,3 +1,4 @@
+import BugReportForm from './components/BugReportForm'
 import './App.css'
 
 function App() {
@@ -60,16 +61,19 @@ function App() {
           </aside>
         </section>
 
-        <section className="placeholder-grid" aria-label="Frontend sections">
-          <article className="placeholder-card" id="create-report">
-            <span className="step-number">01</span>
-            <h2>Create Report</h2>
+        <section className="form-section" id="create-report">
+          <div className="section-heading">
+            <p className="eyebrow">Create report</p>
+            <h2>Describe the bug and structure the report.</h2>
             <p>
-              A form will be added here for project name, environment and raw bug
-              description.
+              Enter the project context and raw bug description. The API connection
+              will be added in the next frontend task.
             </p>
-          </article>
+          </div>
+          <BugReportForm />
+        </section>
 
+        <section className="placeholder-grid" aria-label="Frontend sections">
           <article className="placeholder-card" id="reports">
             <span className="step-number">02</span>
             <h2>Reports List</h2>
