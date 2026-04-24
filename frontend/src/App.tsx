@@ -1,4 +1,5 @@
 import BugReportForm from './components/BugReportForm'
+import ReportsList from './components/ReportsList'
 import './App.css'
 
 function App() {
@@ -73,15 +74,9 @@ function App() {
           <BugReportForm />
         </section>
 
-        <section className="placeholder-grid" aria-label="Frontend sections">
-          <article className="placeholder-card" id="reports">
-            <span className="step-number">02</span>
-            <h2>Reports List</h2>
-            <p>
-              This section will show generated bug reports received from the backend API.
-            </p>
-          </article>
+        <ReportsList />
 
+        <section className="placeholder-grid" aria-label="Frontend sections">
           <article className="placeholder-card">
             <span className="step-number">03</span>
             <h2>Report Detail</h2>
