@@ -1,4 +1,4 @@
-import { ReportStatus } from '../api/reportsApi'
+import type { ReportStatus } from '../api/reportsApi'
 import './Badges.css'
 
 type StatusBadgeProps = {
