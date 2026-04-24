@@ -24,18 +24,20 @@
   cursor: pointer;
 }
 
-.main-nav button:hover {
-  background: #ffffff;
-  color: #111827;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-}
-
 .main-nav button:focus,
 .main-nav button:active {
   color: #475569;
   background: transparent;
   box-shadow: none;
   outline: none;
+}
+
+.main-nav button:hover,
+.main-nav button:focus:hover,
+.main-nav button:active:hover {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .main-nav button:focus-visible {
