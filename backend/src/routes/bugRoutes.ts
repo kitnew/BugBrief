@@ -59,4 +59,27 @@ router.get('/bugs', async (req, res) => {
   }
 });
 
+router.get('/bugs/:id', async (req, res) => {
+  // 1. Беремо ID з параметрів URL
+  const { id } = req.params;
+
+  try {
+    // 2. Шукаємо запис у базі
+    const sql = 'SELECT * FROM bug_reports WHERE id = $1;';
+    const result = await query(sql, [id]);
+
+    // 3. Перевіряємо, чи такий баг взагалі існує
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Репорт не знайдено' });
+    }
+
+    // 4. Повертаємо знайдений репорт
+    res.status(200).json(result.rows[0]);
+    
+  } catch (err) {
+    console.error('Помилка при пошуку репорту:', err);
+    res.status(500).json({ error: 'Не вдалося завантажити деталі репорту' });
+  }
+});
+
 export default router;
