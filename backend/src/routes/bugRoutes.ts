@@ -41,4 +41,22 @@ router.post('/bugs', async (req, res) => {
   }
 });
 
+router.get('/bugs', async (req, res) => {
+  try {
+    // 1. Простий SQL запит на вибірку всіх даних
+    // Сортуємо за датою (спочатку нові), щоб було зручно дивитися
+    const sql = 'SELECT * FROM bug_reports ORDER BY created_at DESC;';
+
+    // 2. Виконуємо запит
+    const result = await query(sql);
+
+    // 3. Відправляємо масив репортів клієнту
+    res.status(200).json(result.rows);
+    
+  } catch (err) {
+    console.error('Помилка при читанні з БД:', err);
+    res.status(500).json({ error: 'Не вдалося завантажити список багів' });
+  }
+});
+
 export default router;
