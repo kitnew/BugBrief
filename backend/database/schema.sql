@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS bug_brief;
 
-CREATE TABLE bug_reports (
+CREATE TABLE IF NOT EXISTS bug_reports (
     id SERIAL PRIMARY KEY,
     project_name VARCHAR(255),
     raw_description TEXT NOT NULL,
