@@ -18,11 +18,23 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Підключаємо наші маршрути
-app.use('/', bugRoutes);
-
-initSchema().then(() => {
-  app.listen(PORT as number, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    service: 'bugbrief-backend',
+    timestamp: new Date().toISOString(),
   });
 });
+
+app.use('/', bugRoutes);
+
+initSchema()
+  .then(() => {
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Failed to initialize database schema:', error);
+    process.exit(1);
+  });
