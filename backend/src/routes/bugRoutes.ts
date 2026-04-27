@@ -109,9 +109,11 @@ router.post('/api/reports/analyze', async (req, res) => {
     res.status(201).json(mapBugReport(savedReport));
   } catch (err) {
     console.error('AI analyze error:', err);
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
 
     res.status(500).json({
       error: 'Failed to analyze and create bug report',
+      details: errorMessage,
     });
   }
 });
