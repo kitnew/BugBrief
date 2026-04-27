@@ -19,35 +19,25 @@ Build output directory:
 dist
 ```
 
-## Required environment variable
+## Required environment variables
 
-Set this variable in AWS Amplify environment variables:
-
-```env
-VITE_API_BASE_URL=https://your-backend-api-url
-```
-
-For local development, copy `.env.example` to `.env` and adjust the value:
-
-```bash
-cp .env.example .env
-```
-
-Example local value:
+Set these variables in AWS Amplify environment variables:
 
 ```env
-VITE_API_BASE_URL=http://localhost:5000
+AMPLIFY_MONOREPO_APP_ROOT=frontend
+VITE_API_BASE_URL=https://pj9b0lp0ul.execute-api.eu-north-1.amazonaws.com/
 ```
 
 ## Deployment steps
 
 1. Open AWS Amplify Console.
-2. Choose **New app**.
-3. Select **Host web app**.
+2. Choose **Create new app**.
+3. Select **GitHub** as the source provider.
 4. Connect the GitHub repository `kitnew/BugBrief`.
 5. Select the `main` branch.
-6. Confirm that Amplify detected the `amplify.yml` configuration.
-7. Add the `VITE_API_BASE_URL` environment variable.
-8. Start deployment.
+6. Enable monorepo mode and set the app root to `frontend`.
+7. Confirm the build command `npm run build` and output directory `dist`.
+8. Add the required environment variables.
+9. Start deployment.
 
-After deployment, the frontend should be available through the Amplify generated domain.
+After deployment, the frontend is available through the Amplify generated domain.
