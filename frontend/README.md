@@ -171,7 +171,7 @@ GET /api/reports/:id
 The backend API address is configured through the Vite environment variable:
 
 ```env
-VITE_API_BASE_URL=https://your-backend-api-url
+VITE_API_BASE_URL=https://pj9b0lp0ul.execute-api.eu-north-1.amazonaws.com/
 ```
 
 ## AWS Amplify deployment
@@ -200,7 +200,7 @@ Required Amplify environment variables:
 
 ```env
 AMPLIFY_MONOREPO_APP_ROOT=frontend
-VITE_API_BASE_URL=https://your-backend-api-url
+VITE_API_BASE_URL=https://pj9b0lp0ul.execute-api.eu-north-1.amazonaws.com/
 ```
 
 Additional deployment notes are available in:
