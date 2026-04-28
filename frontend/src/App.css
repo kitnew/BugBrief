@@ -70,6 +70,96 @@
   outline: none;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.login-button {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 0.95rem;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #ec4899);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  transition: 0.2s;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 8px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #475569;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.dropdown-menu button:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.dropdown-menu hr {
+  margin: 8px 0;
+  border: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.settings-section {
+  padding: 40px 0;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.settings-card {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  max-width: 600px;
+}
+
 main {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -552,4 +642,39 @@ main {
   .report-detail-header {
     flex-direction: column;
   }
+}
+
+.site-footer {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.footer-content p {
+  margin: 0;
+}
+
+.github-link {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 180ms ease;
+}
+
+.github-link:hover,
+.github-link:focus-visible {
+  color: #3730a3;
+  text-decoration: underline;
+  outline: none;
 }

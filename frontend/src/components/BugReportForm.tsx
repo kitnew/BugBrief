@@ -2,6 +2,8 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { analyzeBugReport } from '../api/reportsApi'
 
+import { useAuth } from '../AuthContext'
+
 type BugReportFormData = {
   projectName: string
   environment: string
@@ -15,6 +17,7 @@ const initialFormData: BugReportFormData = {
 }
 
 function BugReportForm() {
+  const { user } = useAuth()
   const [formData, setFormData] = useState<BugReportFormData>(initialFormData)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -51,13 +54,28 @@ function BugReportForm() {
         projectName: formData.projectName.trim(),
         environment: formData.environment.trim(),
         rawDescription: formData.rawDescription.trim(),
+        saveToDb: !!user,
       })
+
+      if (!user) {
+        const existing = JSON.parse(sessionStorage.getItem('localBugReports') || '[]')
+        sessionStorage.setItem('localBugReports', JSON.stringify([report, ...existing]))
+        window.dispatchEvent(new Event('localBugReportsUpdated'))
+      } else {
+        // We could dispatch an event for the dashboard if needed, but it re-fetches on mount
+      }
 
       setSuccessMessage(`Report generated: ${report.title}`)
       setFormData(initialFormData)
-    } catch (requestError) {
+    } catch (requestError: any) {
       console.error(requestError)
-      setError('Could not generate the report. Please check if the backend API is running.')
+      const errorMsg = requestError.response?.data?.details || requestError.message || '';
+
+      if (errorMsg.includes('400')) {
+        setError('Nice try, hacker! But our AI only speaks the language of real bugs. Please provide a valid description.');
+      } else {
+        setError('Oops, the bug squasher tripped over a cable! The backend API seems unreachable right now.');
+      }
     } finally {
       setIsSubmitting(false)
     }

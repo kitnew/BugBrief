@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { query } from '../db.js';
 import { analyzeBugWithAzureAI } from '../services/azureOpenAI.service.js';
+import { authenticateToken, optionalAuthenticateToken, type AuthRequest } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
@@ -55,8 +56,12 @@ router.get('/test-db', async (_req, res) => {
  * Main AI endpoint used by frontend:
  * POST /api/reports/analyze
  */
-router.post('/api/reports/analyze', async (req, res) => {
-  const { projectName, environment, rawDescription } = req.body;
+router.post('/api/reports/analyze', optionalAuthenticateToken, async (req: AuthRequest, res) => {
+  const { projectName, environment, rawDescription, saveToDb = true } = req.body;
+
+  if (saveToDb && !req.user) {
+    return res.status(401).json({ error: 'Authentication required to save reports' });
+  }
 
   if (!rawDescription || typeof rawDescription !== 'string') {
     return res.status(400).json({
@@ -71,8 +76,28 @@ router.post('/api/reports/analyze', async (req, res) => {
       rawDescription,
     });
 
+    if (!saveToDb) {
+      return res.status(200).json({
+        id: Date.now(),
+        projectName: projectName ?? undefined,
+        rawDescription,
+        title: aiReport.title,
+        severity: aiReport.severity,
+        category: aiReport.category ?? undefined,
+        stepsToReproduce: aiReport.stepsToReproduce ?? [],
+        expectedResult: aiReport.expectedResult ?? '',
+        actualResult: aiReport.actualResult ?? '',
+        technicalNotes: aiReport.technicalNotes ?? '',
+        suggestedFix: aiReport.suggestedFix ?? '',
+        status: 'open',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+
     const sql = `
       INSERT INTO bug_reports (
+        user_id,
         project_name,
         raw_description,
         title,
@@ -85,11 +110,12 @@ router.post('/api/reports/analyze', async (req, res) => {
         suggested_fix,
         status
       )
-      VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7, $8, $9, $10, $11)
+      VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11, $12)
       RETURNING *;
     `;
 
     const values = [
+      req.user?.id,
       projectName ?? null,
       rawDescription,
       aiReport.title,
@@ -121,15 +147,16 @@ router.post('/api/reports/analyze', async (req, res) => {
 /**
  * GET /api/reports
  */
-router.get('/api/reports', async (_req, res) => {
+router.get('/api/reports', authenticateToken, async (req: AuthRequest, res) => {
   try {
     const sql = `
       SELECT *
       FROM bug_reports
+      WHERE user_id = $1
       ORDER BY created_at DESC;
     `;
 
-    const result = await query(sql);
+    const result = await query(sql, [req.user?.id]);
     const reports = result.rows.map((row) => mapBugReport(row as DbBugReport));
 
     res.status(200).json(reports);
@@ -145,17 +172,17 @@ router.get('/api/reports', async (_req, res) => {
 /**
  * GET /api/reports/:id
  */
-router.get('/api/reports/:id', async (req, res) => {
+router.get('/api/reports/:id', authenticateToken, async (req: AuthRequest, res) => {
   const { id } = req.params;
 
   try {
     const sql = `
       SELECT *
       FROM bug_reports
-      WHERE id = $1;
+      WHERE id = $1 AND user_id = $2;
     `;
 
-    const result = await query(sql, [id]);
+    const result = await query(sql, [id, req.user?.id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -176,7 +203,7 @@ router.get('/api/reports/:id', async (req, res) => {
 /**
  * PATCH /api/reports/:id/status
  */
-router.patch('/api/reports/:id/status', async (req, res) => {
+router.patch('/api/reports/:id/status', authenticateToken, async (req: AuthRequest, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -193,11 +220,11 @@ router.patch('/api/reports/:id/status', async (req, res) => {
       UPDATE bug_reports
       SET status = $1,
           updated_at = CURRENT_TIMESTAMP
-      WHERE id = $2
+      WHERE id = $2 AND user_id = $3
       RETURNING *;
     `;
 
-    const result = await query(sql, [status, id]);
+    const result = await query(sql, [status, id, req.user?.id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -218,17 +245,17 @@ router.patch('/api/reports/:id/status', async (req, res) => {
 /**
  * DELETE /api/reports/:id
  */
-router.delete('/api/reports/:id', async (req, res) => {
+router.delete('/api/reports/:id', authenticateToken, async (req: AuthRequest, res) => {
   const { id } = req.params;
 
   try {
     const sql = `
       DELETE FROM bug_reports
-      WHERE id = $1
+      WHERE id = $1 AND user_id = $2
       RETURNING id;
     `;
 
-    const result = await query(sql, [id]);
+    const result = await query(sql, [id, req.user?.id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({
