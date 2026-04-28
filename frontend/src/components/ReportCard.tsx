@@ -21,7 +21,7 @@ function ReportCard({ report, onSelect }: ReportCardProps) {
       <div className="report-meta">
         <span>{report.category ?? 'Uncategorized'}</span>
         <StatusBadge status={report.status} />
-        {report.createdAt && <span>{report.createdAt}</span>}
+        {report.createdAt && <span>{new Date(report.createdAt).toLocaleDateString()}</span>}
       </div>
 
       {report.suggestedFix && <p className="report-fix">{report.suggestedFix}</p>}
