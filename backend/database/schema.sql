@@ -1,7 +1,15 @@
 CREATE SCHEMA IF NOT EXISTS bug_brief;
 
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS bug_reports (
     id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     project_name VARCHAR(255),
     raw_description TEXT NOT NULL,
     title VARCHAR(255) NOT NULL,
