@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { initSchema } from './db.js';
 import bugRoutes from './routes/bugRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
@@ -10,6 +11,8 @@ const PORT = Number(process.env.PORT) || 3000;
 app.use(cors({
   origin: [
     "http://localhost:5173",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
     "https://main.d8h80raj6aco8.amplifyapp.com"
   ],
   credentials: true,
@@ -26,6 +29,7 @@ app.get('/health', (_req, res) => {
   });
 });
 
+app.use('/api/auth', authRoutes);
 app.use('/', bugRoutes);
 
 initSchema()

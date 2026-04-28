@@ -1,22 +1,20 @@
-# Етап 1: Збірка
+# build stage
 FROM node:20-alpine AS builder
 
 WORKDIR /app
-
-# Копіюємо файли залежностей
 COPY package*.json ./
 RUN npm install
 
-# Копіюємо решту файлів та компілюємо TypeScript
+# Copy rest of the files and compile TypeScript
 COPY . .
 RUN npm run build
 
-# Етап 2: Запуск
+# run stage
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Копіюємо лише необхідні файли з етапу збірки
+# Copy only necessary files from the build stage
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
