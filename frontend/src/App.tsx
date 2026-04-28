@@ -10,6 +10,7 @@ import './App.css'
 function App() {
   const { user, logout } = useAuth()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
